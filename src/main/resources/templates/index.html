@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notatnik oddzwonień</title>
+    <link rel="shortcut icon" href="https://image.flaticon.com/icons/png/512/16/16106.png">
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+</head>
+<body>
+<!-- Main container -->
+<div id="main-container">
+
+    <!-- Add box -->
+    <div id="add-box">
+        <form method="post" th:action="@{/notatnik}" th:object="${note}">
+            <p style="margin: 0 0 1em 0;">Numer ID</p>
+            <input type="number" id="add-box-number" th:field="*{number}">
+            <p>Data realizacji</p>
+            <input type="datetime-local" id="add-box-date" th:field="*{formattedDate}">
+            <p>Pakiet usług</p>
+            <textarea id="add-box-text" th:field="*{description}"></textarea>
+            <input type="submit" value="Dodaj notatkę" id="add-box-button">
+        </form>
+    </div>
+
+    <!-- Table box -->
+    <div id="table-box">
+        <form method="get" th:action="@{/notatnik}">
+            <table>
+                <thead>
+                <tr>
+                    <td style="height: 30px; min-width: 120px;"></td>
+                    <td style="height: 30px; min-width: 120px;"></td>
+                    <td style="height: 30px; min-width: 320px;"></td>
+                    <td style="height: 30px; min-width: 24px;"></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${listNote}" th:object="${note}" style="border-bottom:1px solid black ">
+                    <td th:text="*{getNumber()}"        style="padding: 5px 0; vertical-align: top;"></td>
+                    <td th:text="*{getFormattedDate()}" style="padding: 5px 0; vertical-align: top;"></td>
+                    <td th:text="*{getDescription()}"   style="padding: 5px 30px; vertical-align: top; word-break: break-word; text-align: left"></td>
+                    <td><a th:href="@{/notatnik/delete}+'?id='+*{getId()}" style="text-decoration: none; color: white;">X</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
